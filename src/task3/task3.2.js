@@ -1,7 +1,5 @@
 import fs from 'fs';
 import csv from 'csvtojson';
-import zlib from 'zlib';
-import { pipeline } from 'stream';
 
 const csvFilePath = 'files/nodejs-hw1-ex1.csv';
 const readStream = fs.createReadStream(csvFilePath); 
@@ -33,15 +31,3 @@ readStream
   .on('end', () => {
     console.log('End: ');
   });
-
-pipeline(
-  readStream,
-  zlib.createGzip(),
-  (err) => {
-    if (err) {
-      console.error('Pipeline failed.', err);
-    } else {
-      console.log('Pipeline succeeded.');
-    }
-  }
-);
