@@ -1,0 +1,23 @@
+GET - http://localhost:4200/users
+
+GET by id - http://localhost:4200/users/3
+
+GET by loginSubstring & limit - http://localhost:4200/suggestUsers?loginSubstring=log&limit=2 
+
+POST - http://localhost:4200/users
+    body = {
+        "login": "test4",
+        "password": "g12Hggg",
+        "age": 5,
+        "isDeleted": false
+    }
+
+PUT - http://localhost:4200/users/2
+    body = {
+        "login": "test4",
+        "password": "g12Hggg",
+        "age": 5,
+        "isDeleted": false
+    }
+
+DELETE - http://localhost:4200/users/2
