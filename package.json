@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/VitaliBrych333/Node.js_GMP2021#readme",
   "dependencies": {
-    "csvtojson": "^2.0.10",
     "express": "^4.17.1",
     "joi": "^17.4.0",
     "nodemon": "^2.0.7",
