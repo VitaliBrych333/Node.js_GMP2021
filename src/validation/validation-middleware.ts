@@ -14,7 +14,7 @@ const errorResponse = (schemaErrors: ValidationErrorItem[]) => {
     };
 };
 
-export const validateSchema = (schema: Schema, users: { users: User[] }) =>
+export const validateSchema = (schema: Schema) =>
     (req: Request, res: Response, next: NextFunction) => {
         const { error } = schema.validate(req.body, {
             abortEarly: false,
@@ -30,9 +30,9 @@ export const validateSchema = (schema: Schema, users: { users: User[] }) =>
 
 export const validateLogin = (users: { users: User[] }) =>
     (req: Request, res: Response, next: NextFunction) => {
-        const login = users.users.find((item: User) => item.login === req.body.login);
+        const objLogin = users.users.find((item: User) => item.login === req.body.login);
 
-        if (!login) {
+        if (!objLogin) {
             res.status(400).json(errorResponse([{
                 type: 'login.required',
                 message: '"login" should exist',

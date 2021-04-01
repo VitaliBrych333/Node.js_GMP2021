@@ -77,7 +77,7 @@ router.get(
 
 router.post(
     '/users',
-    validateSchema(userSchema, users),
+    validateSchema(userSchema),
     validateLogin(users),
     asyncHandler(async (req: Request, res: Response) => {
         const content = req.body;
@@ -91,7 +91,7 @@ router.post(
 
 router.put(
     '/users/:id',
-    validateSchema(userSchema, users),
+    validateSchema(userSchema),
     validateLogin(users),
     asyncHandler(async (req: Request, res: Response) => {
         const id = req.params.id;
