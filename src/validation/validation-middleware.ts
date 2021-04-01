@@ -20,11 +20,19 @@ export const validateSchema = (schema: Schema, users: { users: User[] }) =>
             abortEarly: false,
             allowUnknown: false
         });
-        const login = users.users.find((item: User) => item.login === req.body.login);
 
         if (error && error.isJoi) {
             res.status(400).json(errorResponse(error.details));
-        } else if (!login) {
+        } else {
+            return next();
+        }
+    };
+
+export const validateLogin = (users: { users: User[] }) =>
+    (req: Request, res: Response, next: NextFunction) => {
+        const login = users.users.find((item: User) => item.login === req.body.login);
+
+        if (!login) {
             res.status(400).json(errorResponse([{
                 type: 'login.required',
                 message: '"login" should exist',

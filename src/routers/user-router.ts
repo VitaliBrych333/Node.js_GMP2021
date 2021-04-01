@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 import asyncHandler from '../handle-midleware/utils';
-import { validateSchema } from '../validation/validation-middleware';
+import { validateSchema, validateLogin } from '../validation/validation-middleware';
 
 import * as users from '../../data/data.json';
 import { userSchema } from '../validation/schema';
@@ -19,7 +19,7 @@ export interface User {
 
 const getAutoSuggestUsers = (loginSubstring: string, limit: string) =>
     users.users
-        .filter((user: User) => !user.isDeleted)
+        .filter((user: User) => !user.isDeleted && user.login.includes(loginSubstring))
         .sort((user1: User, user2: User) => {
             if (user1.login < user2.login) {
                 return -1;
@@ -29,7 +29,6 @@ const getAutoSuggestUsers = (loginSubstring: string, limit: string) =>
             }
             return 0;
         })
-        .filter((user: User) => user.login.includes(loginSubstring))
         .slice(0, +limit);
 
 
@@ -79,6 +78,7 @@ router.get(
 router.post(
     '/users',
     validateSchema(userSchema, users),
+    validateLogin(users),
     asyncHandler(async (req: Request, res: Response) => {
         const content = req.body;
         content.id = uuidv4();
@@ -92,14 +92,14 @@ router.post(
 router.put(
     '/users/:id',
     validateSchema(userSchema, users),
+    validateLogin(users),
     asyncHandler(async (req: Request, res: Response) => {
         const id = req.params.id;
         const content = req.body;
-        const index = users.users.findIndex((item: User) => item.id === id);
+        const targetUser = users.users.find((item: User) => item.id === id);
 
-        if (index !== -1) {
+        if (targetUser) {
             const { login, password, age, isDeleted } = content;
-            const targetUser = users.users[index];
             targetUser.login = login;
             targetUser.password = password;
             targetUser.age = age;
@@ -117,10 +117,10 @@ router.delete(
     '/users/:id',
     asyncHandler(async (req: Request, res: Response) => {
         const id = req.params.id;
-        const index = users.users.findIndex((item: User) => item.id === id);
+        const targetUser = users.users.find((item: User) => item.id === id);
 
-        if (index !== -1) {
-            users.users[index].isDeleted = true;
+        if (targetUser) {
+            targetUser.isDeleted = true;
             res.status(204);
         } else {
             res.status(404);
