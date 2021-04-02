@@ -17,7 +17,7 @@ export interface User {
     isDeleted: boolean;
 }
 
-const getAutoSuggestUsers = (loginSubstring: string, limit: string) =>
+const getAutoSuggestUsers = (loginSubstring: string, limit: number) =>
     users.users
         .filter((user: User) => !user.isDeleted && user.login.includes(loginSubstring))
         .sort((user1: User, user2: User) => {
@@ -29,7 +29,7 @@ const getAutoSuggestUsers = (loginSubstring: string, limit: string) =>
             }
             return 0;
         })
-        .slice(0, +limit);
+        .slice(0, limit);
 
 
 router.get(
@@ -64,7 +64,7 @@ router.get(
     asyncHandler(async (req: Request, res: Response) => {
 
         const { loginSubstring, limit } = req.query as { [key: string]: string };
-        const listUsers = getAutoSuggestUsers(loginSubstring, limit);
+        const listUsers = getAutoSuggestUsers(loginSubstring, +limit);
 
         if (listUsers.length) {
             res.json(listUsers);
