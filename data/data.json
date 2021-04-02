@@ -1,0 +1,39 @@
+{
+    "users": [
+        {
+            "id": "1",
+            "login": "logexamp1",
+            "password": "password1",
+            "age": 30,
+            "isDeleted": false
+        },
+        {
+            "id": "2",
+            "login": "logb",
+            "password": "password2",
+            "age": 30,
+            "isDeleted": false
+        },
+        {
+            "id": "3",
+            "login": "lin3",
+            "password": "password3",
+            "age": 30,
+            "isDeleted": false
+        },
+        {
+            "id": "4",
+            "login": "test4",
+            "password": "password4",
+            "age": 30,
+            "isDeleted": true
+        },
+        {
+            "id": "5",
+            "login": "loga",
+            "password": "password5",
+            "age": 30,
+            "isDeleted": false
+        }
+    ] 
+}
