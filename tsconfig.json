@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "rootDir": "./",
+        "outDir": "./build",
+        "esModuleInterop": true,
+        "strict": true,
+        "resolveJsonModule": true,
+        "experimentalDecorators": true,
+    },
+    "lib": ["es2015"]
+}
