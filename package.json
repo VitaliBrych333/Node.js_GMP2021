@@ -1,0 +1,36 @@
+{
+  "name": "node.js_gmp2021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.ts",
+    "lint": "tslint -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitaliBrych333/Node.js_GMP2021.git"
+  },
+  "author": "VitaliBrych",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VitaliBrych333/Node.js_GMP2021/issues"
+  },
+  "homepage": "https://github.com/VitaliBrych333/Node.js_GMP2021#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "nodemon": "^2.0.7",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.6.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/pg": "^7.14.11",
+    "ts-node": "^9.1.1",
+    "tslint": "^6.1.3",
+    "typescript": "^4.2.3"
+  }
+}
