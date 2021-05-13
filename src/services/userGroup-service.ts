@@ -1,27 +1,35 @@
+
 import { ModelCtor, Model, WhereOptions } from 'sequelize';
-import { pool } from '../data-access/db';
+import { sq } from '../data-access/db';
+import { groupService } from '../routers/group-router';
+import { userService } from '../routers/user-router';
 
 export default class UserGroupService<T extends Model<T>> {
     constructor(private userGroupModel: ModelCtor<T>) {}
 
     async addUsersToGroup(groupId: number, userIds: number[]) {
-        const transactionCalls: Promise<T>[] = [];
+        const groupDb = await groupService.findGroup(groupId);
+        if (groupDb) {
+            userIds.forEach(async (user) => {
+                const userById = await userService.getUserById(`${user}`);
 
-        userIds.forEach(userId => {
-            transactionCalls.push(
-                pool.query('INSERT INTO UserGroup (user_id, group_id) VALUES ($1, $2);', [userId, groupId])
-                    .then(res => {
-                        console.log(`Added ${userId} to ${groupId} successfully.`);
-                        return res.command;
-                    })
-                    .catch(err => {
-                        console.log('Error executing query', err.stack);
-                        return err.severity;
-                    })
-            );
-        });
+                if(userById) {
+                    const t = await sq.transaction();
 
-        return Promise.all(transactionCalls);
+                    try {
+                        await this.userGroupModel.create({ user_id: user, group_id: groupId } as unknown as T, { transaction: t });
+                        await t.commit();
+                    } catch {
+                        await t.rollback();
+                    }
+                } else {
+                    console.log('No such user:', user);
+                }
+            })
+        } else {
+            console.log('No such group!:', groupId)
+            return new Error('No such group!');
+        }
     }
 
     deleteUserGroup(id: string) {

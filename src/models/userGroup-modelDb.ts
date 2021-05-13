@@ -15,3 +15,5 @@ export const UserGroup = sq.define('usergroup', {
     schema: 'public',
     tableName: 'usergroup'
 });
+
+UserGroup.removeAttribute('id');

@@ -135,9 +135,9 @@ userRouter.post(
     asyncHandler(async (req: Request, res: Response) => {
         const { groupId, userIds } = req.body;
         try {
-            const resultTransaction = await userGroupService.addUsersToGroup(groupId, userIds) as unknown as string[];
-            resultTransaction.every(call => call === 'INSERT') ? res.status(201)
-                                                               : res.status(422);
+            const isAdded = await userGroupService.addUsersToGroup(groupId, userIds);
+            isAdded instanceof Error ? res.status(422)
+                                     : res.status(201);
             res.end();
         } catch {
             res.status(422);

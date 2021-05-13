@@ -6,7 +6,7 @@ import { groupRouter } from './routers/group-router';
 
 const app = express();
 
-app.set('port', (config.port || 4200));
+app.set('port', (config.port || 4300));
 
 app.use(express.static(path.join(__dirname, '../src')));
 app.use(express.json());
