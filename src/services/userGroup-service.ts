@@ -27,7 +27,7 @@ export default class UserGroupService<T extends Model<T>> {
                 }
             })
         } else {
-            console.log('No such group!:', groupId)
+            console.log('No such group:', groupId)
             return new Error('No such group!');
         }
     }
