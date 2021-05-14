@@ -1,4 +1,3 @@
-
 import { ModelCtor, Model, WhereOptions } from 'sequelize';
 import { sq } from '../data-access/db';
 
