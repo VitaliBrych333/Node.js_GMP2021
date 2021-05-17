@@ -1,17 +1,17 @@
-import { Request, Response, NextFunction, Router } from 'express';
-import asyncHandler from '../handle-midleware/utils';
-import { validateSchema } from '../handle-midleware/validation-middleware';
+import { Request, Response, Router } from 'express';
 import { groupSchema } from '../models/schema-validation';
 import { Group } from '../models/group-modelDb';
 import GroupService from '../services/group-service';
+import { validateSchema } from '../handle-midleware/validation-middleware';
 import { ErrorHandler } from '../handle-midleware/error-handler';
+import { controllerTimeLogger } from '../handle-midleware/controller-time';
 
 export const groupService = new GroupService(Group);
 export const groupRouter = Router();
 
 groupRouter.get(
     '/',
-    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    controllerTimeLogger(async (req: Request, res: Response) => {
         try {
             const groupsDb = await groupService.getAllGroups();
             const groups = groupsDb.map(group => group.toJSON());
@@ -22,14 +22,14 @@ groupRouter.get(
             res.json(groups);
             res.end();
         } catch (err) {
-            return next(err);
+            throw new ErrorHandler(err.statCode || 500, err.message);
         }
     })
 );
 
 groupRouter.get(
     '/:id',
-    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    controllerTimeLogger(async (req: Request, res: Response) => {
         const id = req.params.id;
         try {
             const groupById = await groupService.getGroupById(id);
@@ -40,7 +40,7 @@ groupRouter.get(
             res.json(groupById);
             res.end();
         } catch (err) {
-            return next(err);
+            throw new ErrorHandler(err.statCode || 500, err.message);
         }
     })
 );
@@ -48,15 +48,15 @@ groupRouter.get(
 groupRouter.post(
     '/',
     validateSchema(groupSchema),
-    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    controllerTimeLogger(async (req: Request, res: Response) => {
         const { name, permissions } = req.body;
         try {
-            const t = await groupService.createGroup({ name, permissions });
+            await groupService.createGroup({ name, permissions });
 
             res.status(201);
             res.end();
         } catch (err) {
-            return next(err);
+            throw new ErrorHandler(500, err.message);
         }
     })
 );
@@ -64,7 +64,7 @@ groupRouter.post(
 groupRouter.put(
     '/:id',
     validateSchema(groupSchema),
-    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    controllerTimeLogger(async (req: Request, res: Response) => {
         const id = req.params.id;
         const content = req.body;
         const { name, permissions } = content;
@@ -77,14 +77,14 @@ groupRouter.put(
             res.status(200);
             res.end();
         } catch (err) {
-            return next(err);
+            throw new ErrorHandler(err.statCode || 500, err.message);
         }
     })
 );
 
 groupRouter.delete(
     '/:id',
-    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    controllerTimeLogger(async (req: Request, res: Response) => {
         const id = req.params.id;
         try {
             const isDeleted = await groupService.deleteGroup(id);
@@ -95,7 +95,7 @@ groupRouter.delete(
             res.status(204);
             res.end();
         } catch (err) {
-            return next(err);
+            throw new ErrorHandler(err.statCode || 500, err.message);
         }
     })
 );

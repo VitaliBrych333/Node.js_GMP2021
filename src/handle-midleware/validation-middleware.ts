@@ -35,7 +35,7 @@ export const validateLogin = () =>
         const loginDb = await userService.getLogin(req.body.login);
 
         if (!loginDb) {
-            const message = '"login" should exist';        
+            const message = '"login" should exist';
             loggerError.error({ method: req.method, url: req.url, arguments: req.body, message });
             res.status(400).json(errorResponse([{
                 type: 'login.required',

@@ -1,5 +1,0 @@
-2021-05-16 19:43:56 [error] {"method":"POST","url":"/users/addUsersToGroup","arguments":{"groupId":4,"userIds":[4,55]}} Validation error
-2021-05-16 19:45:01 [error] {"method":"GET","url":"/users/2565","arguments":{}} User ID not found
-2021-05-16 19:57:04 [error] {"method":"POST","url":"/","arguments":{"name":"test4555555555","permissions":["READ","WRITE","jhjghjfg"]}} [object Object]
-2021-05-16 19:58:31 [error] {"method":"POST","url":"/","arguments":{"name":"test4555555555","permissions":["READ","WRITE","jhjghjfg"]}} Invalid schema
-2021-05-16 19:59:27 [error] {"method":"PUT","url":"/2","arguments":{"login":"test45555","password":"g12Hggg","age":5,"isDeleted":false}} "login" should exist

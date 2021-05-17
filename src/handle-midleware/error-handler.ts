@@ -1,6 +1,6 @@
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import { createLogger, format, transports } from 'winston';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 
 export const loggerError = createLogger({
     transports: [
@@ -55,9 +55,7 @@ export class ErrorHandler extends Error {
     }
 }
 
-export function handleError(req: Request, res: Response, err: ErrorHandler) {
-    loggerError.error({ method: req.method, url: req.url, arguments: req.body, message: err.message });
-
+export function handleError(res: Response, err: ErrorHandler) {
     const { statCode, message } = err;
 
     if (statCode) {

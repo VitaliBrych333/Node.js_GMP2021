@@ -30,7 +30,7 @@ app.use('/users', userRouter);
 app.use('/groups', groupRouter);
 
 app.use((err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
-    handleError(req, res, err);
+    handleError(res, err);
     next();
 });
 
