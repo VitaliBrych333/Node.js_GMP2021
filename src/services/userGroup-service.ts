@@ -9,9 +9,6 @@ export default class UserGroupService<T extends Model<T>> {
             return this.userGroupModel.bulkCreate(
                 userIds.map(user => { return { user_id: user, group_id: groupId } as unknown as T; }),
                 { transaction: t });
-        }).catch((err) => {
-            console.log('Error:', err);
-            return new Error();
         });
     }
 
